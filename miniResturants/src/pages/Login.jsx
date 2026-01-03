@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import { useApp } from "../context/AppContext";
 export default function Login(){
     const[email,setEmail]=useState('')
     const[password,setPassword] =useState('')

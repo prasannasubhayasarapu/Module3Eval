@@ -1,4 +1,4 @@
-
+import { useApp } from "../context/AppContext"
 export default function Resturantcard({restaurant,showActions=false,onEdit,onDelete}){
 const {user}=useApp()
 return(

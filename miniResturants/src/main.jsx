@@ -1,5 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
-
+import App from './App';
+import { AppProvider } from "./context/AppContext";
 ReactDOM.createRoot(document.getElementById('root')).render(
 <React.StrictMode>
   <BrowserRouter>
