@@ -1,5 +1,6 @@
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 const initialFormState={
     name:'',
     type:'Chinese',
@@ -39,4 +40,30 @@ const handleFilterParking=(hasParking)=>{
     :restaurants
     setFilteredRestaurants(filtered)
 }
+const handleAdd=(e)=>{
+    e.preventDefault()
+    if(!form.name.trim())return alert('Name is req')
+        addRestaurant(form)
+    setForm(initialFormState)
+    setShowForm(false)
 }
+ const handleEdit=(restaurant)=>{
+    setForm({
+        name:restaurant.name,
+        type:restaurant.type,
+        image:restaurant.image
+        ,
+        parkingAvailability:restaurant.parkingAvailability,
+    })
+ }
+
+
+}
+return(
+    <div>
+        <Navbar onSearch={handleSearch}
+        onFilterType={handleFiltertype}
+        onFilterParking={handleFilterParking}/>
+        
+    </div>
+)
