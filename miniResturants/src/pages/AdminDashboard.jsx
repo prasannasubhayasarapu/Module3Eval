@@ -1,6 +1,8 @@
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import Resturantcard from "../components/ResturantCard";
+import { useApp } from "../context/AppContext";
 const initialFormState={
     name:'',
     type:'Chinese',
@@ -55,15 +57,59 @@ const handleAdd=(e)=>{
         ,
         parkingAvailability:restaurant.parkingAvailability,
     })
+    setEditingId(restaurant.restaurantId)
+    setShowForm(true)
  }
-
-
+const handleUpdate=(e)=>{
+    e.preventDefault()
+    if(!form.name.trim())return alert('Name is Required')
+        updateRestaurants(editingId,form)
+    setForm(initialFormState)
+    setShowForm(false)
 }
+const handleDelete=(id)=>{
+    if(window.confirm('Are you sure you want ot delete this restuarant?'))
+    {
+        deleteRestaurant(id)
+    }
+}
+
 return(
     <div>
         <Navbar onSearch={handleSearch}
         onFilterType={handleFiltertype}
         onFilterParking={handleFilterParking}/>
-        
+<div style={{display:'flex'}}>
+    <div style={{width:'300px',padding:'1rem',borderRight:'1px solid red'}}>
+    <h3>{editingId?handleUpdate:handleAdd}</h3>
+    <form onSubmit={editingId?handleUpdate:handleAdd}>
+        <input type="text" placeholder="Restaurant Name" value={form.name}
+        onChange={(e)=>setForm({...form,name:e.target.value})}
+        />
+        <select value={form.type} onChange={(e)=>setForm({...form,type:e.target.value})}>
+            {['Chinese','European','Indian','North indian','South Indian','Bangladesh'].map(t=>(
+                <option key={t} value={t}>{t}</option>
+            ))}
+            </select>
+            <input type="text"placeholder="img url" value={form.image} onChange={(e)=>{
+                setForm({...form,parkingAvailability:e.target.checked})}
+            }/>
+<button type="button" onClick={()=>{
+    setEditingId(null);setShowForm(false);
+    setForm(initialFormState)}}>
+        cancel</button>
+           
+    </form>
+</div>
+<div>
+    <div>
+        {filteredRestaurants.map((r)=>(
+            <Resturantcard key={r.restaurantId} restaurant={r} 
+            showActions={true} onEdit={handleEdit} onDelete={handleDelete}
+   />))}
+    </div>
+</div>
+    </div>
     </div>
 )
+}
